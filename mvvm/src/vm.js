@@ -9,6 +9,12 @@ export default class VM {
 	
 	proxyData = (data) => {
 		let that = this;
+
+		Object.keys(data).map((k, i) => {
+			if (typeof(data[k]) == 'object') {
+				data[k] = this.proxyData(data[k]);
+			}
+		})
 		var obj = new Proxy(data, {
 			get: function (target, key, receiver) {
 			  return Reflect.get(target, key, receiver);
@@ -17,8 +23,11 @@ export default class VM {
 			  setTimeout(() => that.render());
 			  return Reflect.set(target, key, value, receiver);
 			}
-		  });
-		  return obj;
+		});
+
+		
+
+		return obj;
 	}
 
 	onChangeData = (data) => {
@@ -30,7 +39,19 @@ export default class VM {
 		let matchEles = rawHtml.match(/\{\{([^\}]+)\}\}/g);
 		for(let i=0; i<matchEles.length; i++) {
 			let key = matchEles[i].substr(2, matchEles[i].length - 4);
-			rawHtml = rawHtml.replace(matchEles[i], this.data[key])
+			let real;
+			if (key.indexOf('.')!=-1) {
+				let keyChain = key.split('.');
+				real = this.data;
+				keyChain.map(k => {
+					real = real[k]
+				});
+			} else {
+				real = this.data[key];
+			}
+
+
+			rawHtml = rawHtml.replace(matchEles[i], real)
 		}
 		document.querySelector(this.el).innerHTML = rawHtml;
 	}
