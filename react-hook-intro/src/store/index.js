@@ -17,6 +17,8 @@ function reducer(state, action) {
             let index = todos.findIndex(item => item.id === action.payload);
             todos[index].status = todos[index].status === 0 ? 1:0;
             return { todos: [...todos] };
+        case "loadTodos":
+            return {todos: [{ id: 1, text: "first", status: 0 },{ id: 2, text: "second", status: 1 }]}
         default:
             console.warn('no match action ->', action.type);
             return state;

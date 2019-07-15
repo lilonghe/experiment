@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import TodoItem from './TodoItem';
+import AppContext from './store/context';
 
-function TodoList(props) {
-    const { todos, dispatch } = props;
+function TodoList() {
+    const {state: { todos }} = useContext(AppContext);
+
     return (
         <div>
-            {todos.map(todo => <TodoItem dispatch={dispatch} key={todo.id} todo={todo} />)}
+            {todos.map(todo => <TodoItem key={todo.id} todo={todo} />)}
         </div>
     );
 }
