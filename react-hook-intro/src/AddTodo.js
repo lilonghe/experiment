@@ -9,7 +9,7 @@ function AddTodo(props) {
     );
 
     function addTodo(e) {
-        if (e.charCode === 13) {
+        if (e.charCode === 13 && e.target.value != "") {
             dispatch({ type: 'addTodo', payload: e.target.value });
             e.target.value = "";
         } 
