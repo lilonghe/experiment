@@ -2,11 +2,11 @@ const config = {
   projectName: 'taro-intro',
   date: '2019-7-18',
   designWidth: 950,
-  // deviceRatio: {
-  //   '640': 2.34 / 2,
-  //   '750': 1,
-  //   '828': 1.81 / 2
-  // },
+  deviceRatio: {
+    '640': 2.34 / 2,
+    '750': 1,
+    '828': 1.81 / 2
+  },
   sourceRoot: 'src',
   outputRoot: 'dist',
   plugins: {
