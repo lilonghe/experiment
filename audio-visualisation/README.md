@@ -1,2 +1,7 @@
-# 转化录音为波形图
-vue3
+# WebAudio 
+vue3, canvas, webaudio
+
+WebAudio 音波图及柱状图
+
+![Microphone](microphone.png)
+![Local File](local-file.png)
