@@ -1,38 +1,24 @@
 <template>
-  <button 
-    @click="toggleAction"
-    v-text="(audio?`Stop`:'Start')+' Record'" />
-
-  <Analyser v-if="audio" :audio="audio"/>
+  <div class="tabs">
+    <div :class="{ active: tab=='microphone' }" @click="()=>tab='microphone'">Microphone</div>
+    <div :class="{ active: tab=='local-file' }" @click="()=>tab='local-file'">Local File</div>
+  </div>
+  
+  <ReadFile v-if="tab=='local-file'" />
+  <Microphone v-if="tab=='microphone'" />
 </template>
 
 <script setup>
-import Analyser from './components/Analyser.vue';
-  import { ref, reactive } from 'vue';
-  const audio = ref(null);
-  const toggleAction = () => {
-    if (audio.value) {
-      stop();
-    } else {
-      start();
-    }
-  }
-  const start = async () => {
-    let a = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: false
-    });
-    audio.value = a;
-  }
-
-  const stop = async () => {
-    audio.value.getTracks().forEach(track => track.stop());
-    audio.value = null;
-  }
+import Microphone from './components/Microphone.vue';
+import ReadFile from './components/ReadFile.vue';
+import { ref } from 'vue';
+const tab = ref('microphone');
 </script>
   
-
 <style>
+*{
+  margin: 0; padding: 0; box-sizing: border-box;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -40,5 +26,18 @@ import Analyser from './components/Analyser.vue';
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.tabs {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+.tabs > div {
+  margin-left: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.tabs > div.active {
+  font-weight: bold;
 }
 </style>
