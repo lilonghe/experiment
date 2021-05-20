@@ -1,0 +1,72 @@
+<canvas id="galaxy" style="position:fixed; left: 0; top: 0"></canvas>
+
+<script type="text/javascript">
+    let canvas = document.getElementById('galaxy');
+    let w, h;
+    setCanvasSize();
+    let ctx = canvas.getContext('2d');
+
+    let staticStarList = [];
+    for (let i = 0; i < 1000; i++) {
+        staticStarList.push(generateNewStar());
+    }
+
+    function setCanvasSize() {
+        w = window.innerWidth, h = window.innerHeight;
+        canvas.setAttribute('width', w);
+        canvas.setAttribute('height', h);
+    }
+
+    function generateNewStar() {
+        return {
+            x: getRandom(0, w),
+            y: getRandom(0, h),
+            len: getRandom(0, 0.1),
+            moveX: getRandom(-1, 1),
+            moveY: getRandom(-1, 1),
+        }
+    }
+
+    function getRandom(min, max) {
+        return parseFloat((Math.random() * (max - min + 1) + min).toFixed(8));
+    }
+
+    function drawStaticStar(starList) {
+        ctx.globalAlpha = 0.1;
+        ctx.beginPath();
+        starList.map(star => {
+            const { x, y, len } = star;
+            ctx.moveTo(x, y);
+            ctx.arc(x, y, len / 2, 0, Math.PI * 2);
+        });
+        ctx.strokeStyle = '#FFF';
+        ctx.stroke();
+    }
+
+    function clearDraw() {
+        ctx.strokeStyle = '#000';
+        ctx.fillRect(0, 0, w, h);
+    }
+
+    function animateStar() {
+        clearDraw();
+
+        staticStarList.map((item, i) => {
+            const {x, y, moveX, moveY} = staticStarList[i];
+
+            staticStarList[i].x = x + moveX / 60;
+            staticStarList[i].y = y + moveY / 60;
+
+            if (staticStarList[i].x < 0 || staticStarList[i].x > w || staticStarList[i].y < 0 || staticStarList[i].y > h) {
+                staticStarList[i] = generateNewStar();
+            }
+        });
+        drawStaticStar(staticStarList);
+
+        requestAnimationFrame(animateStar);
+    }
+
+    requestAnimationFrame(animateStar);
+
+    window.addEventListener('resize', setCanvasSize)
+</script>
