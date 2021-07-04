@@ -106,3 +106,33 @@ function listToTree(menus) {
     });
     return val;
 }
+
+/**
+ * Modify the value directly
+ * @param {*} key 
+ * @param {*} childrens 
+ * @param {*} tree 
+ * @returns 
+ */
+// function appendTreeChildrens(key, childrens, tree) {
+//     let newTree = JSON.parse(JSON.stringify(tree));
+//     if (!key) {
+//         return newTree.concat(childrens);
+//     }
+//     function searchTreeNode(key, treeData) {
+//         for(let i=0;i<treeData.length;i++) {
+//             if (treeData[i].key === key) {
+//                 treeData[i].children = treeData[i].children.concat(childrens);
+//                 return true;
+//             }
+//             if (treeData[i].children) {
+//                 let resu = searchTreeNode(key, treeData[i].children);
+//                 if (resu) {
+//                     return true;
+//                 }
+//             }
+//         }
+//     }
+//     searchTreeNode(key, newTree);
+//     return newTree;
+// }
