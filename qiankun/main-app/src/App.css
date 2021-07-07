@@ -1,0 +1,31 @@
+*{margin: 0; padding: 0; box-sizing: border-box;}
+html, body {
+  height: 100%;
+}
+body {
+  background-image: linear-gradient(bisque, #FFF);
+}
+
+nav {
+  display: flex;
+  background-color: bisque;
+  box-shadow: 0 0 3px #000;
+}
+nav a {
+  display: inline-block;
+  padding: 20px 20px;
+  color: chocolate;
+  text-decoration: none;
+  transition: all .2s;
+}
+nav a:hover, nav a.active {
+  color: coral;
+  background-color: #FFF;
+}
+
+.slogan {
+  width: 100%;
+  line-height: 300px;
+  font-size: 100px;
+  text-align: center;
+}

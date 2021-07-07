@@ -1,0 +1,14 @@
+[
+    {
+      "name": "app1",
+      "entry": "//localhost:3000",
+      "container": "#root",
+      "activeRule": "/app1"
+    },
+    {
+        "name": "app2",
+        "entry": "//localhost:3001",
+        "container": "#root",
+        "activeRule": "/app2"
+    }
+  ]
