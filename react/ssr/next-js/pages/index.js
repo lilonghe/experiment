@@ -5,11 +5,13 @@ export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <script src="/variable.js"></script>
       </Head>
 
       <main>
+        {global['PATH']}
+        {global.PATH && <a href={global['PATH'] + '/abc'}>123</a> }
+        {global.PATH && <img src={global.PATH + '/logo.png'} /> }
         <h1 className="title">
           Hello, Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
