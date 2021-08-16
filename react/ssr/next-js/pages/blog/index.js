@@ -1,3 +1,4 @@
+import BlogLayout from "../../components/layouts/blog"
 export default function Home() {
     return (
         <div>
@@ -5,3 +6,5 @@ export default function Home() {
         </div>
     )
 }
+
+Home.getLayout = BlogLayout;
