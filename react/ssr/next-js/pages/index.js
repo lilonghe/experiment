@@ -15,7 +15,6 @@ export default function Home() {
           <small>全局注入变量测试， build once, run anywhere.</small><br/>
           {global['PATH']}<br/>
           {global.PATH && <a href={global['PATH'] + '/abc'}>123</a> }<br/>
-          {global.PATH && <img src={global.PATH + '/logo.png'} /> }
         </div>
       </main>
     </div>

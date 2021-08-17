@@ -1,10 +1,17 @@
-import BlogLayout from "../../components/layouts/blog"
-export default function Home() {
+import Link from "next/link";
+
+export default function Home({ data }) {
     return (
         <div>
-            This is blog index.
+            {data.data && data.data.map(item=><div key={item.appid}>
+                <Link href={`/blog/` + item.appid}>{item.name}</Link>
+            </div>)}
         </div>
     )
 }
 
-Home.getLayout = BlogLayout;
+export async function getServerSideProps() {
+    const res = await fetch(`http://rap2api.taobao.org/app/mock/24484/apps`)
+    const data = await res.json()
+    return { props: { data } }
+}
