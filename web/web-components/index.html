@@ -7,8 +7,14 @@
     <title>Web Components</title>
 </head>
 <body>
+    <input is="number-input" />
+    <work-count-input></work-count-input>
+    <template id='wordCountInput'>
+        <input />
+        <span></span>
+    </template>
     <script>
-        class WordCountInput extends HTMLInputElement {
+        class NumberInput extends HTMLInputElement {
             constructor() {
                 super();
                 this.style.outline = 'none';
@@ -26,8 +32,22 @@
                 });
             }
         }
-        customElements.define('number-input', WordCountInput, { extends: 'input' });
+
+        class WordCountInput extends HTMLElement {
+            constructor() {
+                super();
+                let templateElem = document.getElementById('wordCountInput');
+                let content = templateElem.content.cloneNode(true);
+                
+                content.querySelector('input').addEventListener('input', e => {
+                    content.querySelector('span').innerText = e.target.value.length;
+                });
+
+                this.appendChild(content);
+            }
+        }
+        customElements.define('number-input', NumberInput, { extends: 'input' });
+        customElements.define('word-count-input', WordCountInput);
     </script>
-    <input is="number-input" />
 </body>
 </html>
