@@ -5,13 +5,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Components</title>
+    <style type="text/css">
+        input {
+            font-size: 30px;
+        }
+
+        li {
+            margin-bottom: 20px;
+            list-style: none;
+        }
+
+        label {
+            display: inline-block;
+            width: 200px;
+            text-align: right;
+        }
+    </style>
 </head>
 <body>
-    <input is="number-input" />
-    <work-count-input></work-count-input>
+    <ul>
+        <li>
+            <label>input:</label> <input />
+        </li>
+        <li>
+            <label>Extends Input:</label> <input is="number-input" />
+        </li>
+        <li>
+            <label>Template Input:</label> <word-count-input></word-count-input>
+        </li>
+        <li>
+            <label>Shaow Input:</label> <word-count-input2></word-count-input2>
+        </li>
+        <li>
+            <label>Slot:</label> <user-button></user-button>
+            <user-button>
+                <span slot="text">Confirm</span>
+            </user-button>
+        </li>
+    </ul>
     <template id='wordCountInput'>
         <input />
-        <span></span>
+        <span>(0)</span>
+    </template>
+    <template id='user-button'>
+        <slot name='text'>default text</slot>
     </template>
     <script>
         class NumberInput extends HTMLInputElement {
@@ -36,18 +73,66 @@
         class WordCountInput extends HTMLElement {
             constructor() {
                 super();
-                let templateElem = document.getElementById('wordCountInput');
-                let content = templateElem.content.cloneNode(true);
+                const templateElem = document.getElementById('wordCountInput');
+                const content = templateElem.content.cloneNode(true);
                 
+                const span = content.querySelector('span');
                 content.querySelector('input').addEventListener('input', e => {
-                    content.querySelector('span').innerText = e.target.value.length;
+                    span.innerText = `(${e.target.value.length})`;
                 });
 
                 this.appendChild(content);
             }
         }
+
+        class WordCountInput2 extends HTMLElement {
+            constructor() {
+                super();
+                
+                this.dataId = Math.random();
+
+                const shadow = this.attachShadow({mode: 'open'});
+                const style = document.createElement('style');
+                style.textContent = `
+                    span {
+                        color: #999;
+                    }
+                `;
+                
+                const input = document.createElement('input');
+                const span = document.createElement('span');
+                span.innerText = '(0)';
+                input.addEventListener('input', e => {
+                    span.innerText = `(${e.target.value.length})`;
+                });
+
+                shadow.appendChild(style);
+                shadow.appendChild(input);
+                shadow.appendChild(span);
+            }
+        }
+
+        class UserButton extends HTMLElement {
+            constructor() {
+                super();
+
+                const templateElem = document.getElementById('user-button');
+                const content = templateElem.content.cloneNode(true);
+                const shadow = this.attachShadow({mode: 'open'});
+                shadow.appendChild(content);
+            }
+        }
+
         customElements.define('number-input', NumberInput, { extends: 'input' });
         customElements.define('word-count-input', WordCountInput);
+        customElements.define('word-count-input2', WordCountInput2);
+        customElements.define('user-button', UserButton);
+
+        document.querySelector('ul').addEventListener('click', e => {
+           console.log(e.target);
+        });
+
+        console.log(document.querySelector('word-count-input2').dataId);
     </script>
 </body>
 </html>
