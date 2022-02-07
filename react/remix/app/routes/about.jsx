@@ -1,4 +1,5 @@
-import { useLoaderData } from "remix";
+import { useEffect } from "react";
+import { useFetcher, useLoaderData } from "remix";
 
 export function loader() {
     return fetch('http://rap2api.taobao.org/app/mock/262830/home').
@@ -7,12 +8,20 @@ export function loader() {
 
 export default function About() {
     const data = useLoaderData();
+    const loadAction = useFetcher();
+    const finalData = loadAction.data || data;
+
+    useEffect(() => {
+        setTimeout(() => {
+            loadAction.submit();
+        }, 1000);
+    }, [])
 
     return (
         <div>
             About
             <ul>
-                {data.map(item => <li key={item.id}>{item.topic.content}</li>)}
+                {finalData.map(item => <li key={item.id}>{item.topic.content}</li>)}
             </ul>
         </div>
     )
