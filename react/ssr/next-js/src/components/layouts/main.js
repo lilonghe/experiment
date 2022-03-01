@@ -1,18 +1,14 @@
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function MainLayout(children) {
-    const [userinfo, setUserinfo] = useState();
-
-    const loadUserInfo = async () => {
-        const res = await fetch(`http://rap2api.taobao.org/app/mock/262830/login`)
-        const data = await res.json();
-        setUserinfo(data.data)
-    }
+export default function MainLayout({ children }) {
+    const dispatch = useDispatch();
+    const { userinfo } = useSelector(state => state.user);
 
     useEffect(() => {
-        loadUserInfo();
-    }, []);
+        dispatch.user.fetchUserinfo();
+    }, [])
 
     return (
         <div>
