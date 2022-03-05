@@ -1,22 +1,25 @@
-import Head from 'next/head';
-import Link from 'next/link';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-export default function Home() {
+export default function Home(props) {
+  const { t } = useTranslation();
+
   return (
     <div className="container">
-      <Head>
-        <script src="/variable.js"></script>
-      </Head>
-
       <main>
         <h1>Home</h1> Page
-
         <div>
-          <small>全局注入变量测试， build once, run anywhere.</small><br/>
-          {global['PATH']}<br/>
-          {global.PATH && <a href={global['PATH'] + '/abc'}>123</a> }<br/>
+          {t('title')}
         </div>
       </main>
     </div>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale)),
+    },
+  };
 }
