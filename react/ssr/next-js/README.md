@@ -28,3 +28,7 @@ return (
     </Provider>
 )
 ```
+
+
+Link 的子元素必须要特定格式  
+`react-intl` 下的 `<FormattedMessage />` 渲染出来的是个空组件，只留下文字，没有 a 标签

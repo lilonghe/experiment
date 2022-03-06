@@ -1,5 +1,10 @@
-const { i18n } = require('./next-i18next.config');
-
 module.exports = {
-  i18n,
+  i18n: {
+    defaultLocale: 'zh-CN',
+    locales: ['zh-CN', 'en-US'],
+  },
+  webpack: (config) => {
+    config.experiments = { topLevelAwait: true };
+    return config;
+  },
 };

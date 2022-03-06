@@ -1,25 +1,17 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { FormattedMessage } from 'react-intl';
+import Link from 'next/link';
 
 export default function Home(props) {
-  const { t } = useTranslation();
 
   return (
     <div className="container">
       <main>
-        <h1>Home</h1> Page
+        <h1><FormattedMessage id='home' /></h1>
         <div>
-          {t('title')}
+          <Link href='/' locale='zh-CN'>zh-CN</Link><br/>
+          <Link href='/en-US' locale='en-US'>en-US</Link>
         </div>
       </main>
     </div>
   )
-}
-
-export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale)),
-    },
-  };
 }
