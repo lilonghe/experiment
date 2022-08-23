@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import './style.css'
-import App from './App.vue'
-import OneByOne from './1-1.vue'
+import View from './n-n.vue'
 
-createApp(OneByOne).mount('#app')
+createApp(View).mount('#app')
