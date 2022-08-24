@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import io from "socket.io-client";
 
 const PC_CONFIG = {
@@ -21,6 +21,10 @@ const socketInfo = ref();
 const pcsRef = ref({});
 const users = ref([]);
 const roomNo = ref();
+const userInfo = reactive({
+    id: undefined,
+    emial: undefined,
+});
 
 if (!window.logs) {
     window.logs = [];
@@ -54,7 +58,7 @@ const connectVideo = async () => {
         videoStream.value = stream;
         socketInfo.value.emit("join_room", {
             room: roomNo.value,
-            email: 'test@example.com',
+            email: userInfo.emial,
         });
     }).catch(err => {
         alert(err.name + ': ' + err.message);
@@ -72,7 +76,7 @@ const createPeerConnection = (socketID, email) => {
             console.log('Emit candidate');
             socketInfo.value.emit('candidate', {
                 candidate: e.candidate,
-                candidateSendID: socketInfo.value.id,
+                candidateSendID: userInfo.id,
                 candidateReceiveID: socketID,
             });
         };
@@ -112,7 +116,7 @@ const createPeerConnection = (socketID, email) => {
 }
 
 const joinRoom = () => {
-    if (!roomNo.value) return;
+    if (!roomNo.value || !userInfo.emial) return;
 
     socketInfo.value.disconnect();
     socketInfo.value.connect();
@@ -135,6 +139,7 @@ onMounted(() => {
     socketInfo.value = io(SOCKET_SERVER_URL);
 
     socketInfo.value.on('connect', () => {
+        userInfo.id = socketInfo.value.id;
         console.log('Socket Id: ' + socketInfo.value.id);
     })
 
@@ -153,8 +158,8 @@ onMounted(() => {
                 await pc.setLocalDescription(new RTCSessionDescription(localSdp));
                 socketInfo.value.emit('offer', {
                     sdp: localSdp,
-                    offerSendID: socketInfo.value.id,
-                    offerSendEmail: 'offerSendSample@sample.com',
+                    offerSendID: userInfo.id,
+                    offerSendEmail: userInfo.emial,
                     offerReceiveID: user.id,
                 });
             } catch (e) {
@@ -182,7 +187,7 @@ onMounted(() => {
                 await pc.setLocalDescription(new RTCSessionDescription(localSdp));
                 socketInfo.value.emit('answer', {
                     sdp: localSdp,
-                    answerSendID: socketInfo.value.id,
+                    answerSendID: userInfo.id,
                     answerReceiveID: offerSendID,
                 });
             } catch (e) {
@@ -228,7 +233,8 @@ onMounted(() => {
 
 <template>
     <div class="actions">
-        <input v-model="roomNo" />
+        <input v-model="roomNo" placeholder="room no." class="mr" required />
+        <input v-model="userInfo.emial" placeholder="email" required />
         <div class="mt">
             <button :disabled="connectLoading" class="mr" @click="joinRoom">Join Room</button>
             <button :disabled="connectLoading" @click="leaveRoom">Leave Room</button>
@@ -236,6 +242,11 @@ onMounted(() => {
     </div>
     <div class="meta">
         <video ref="videoElement" autoplay></video>
+        <div>
+            <ul>
+                <li v-for="user in users" :key="user.id">{{user.id}}/{{user.email}}</li>
+            </ul>
+        </div>
     </div>
     <div>
         <div>
