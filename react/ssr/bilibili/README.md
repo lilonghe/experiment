@@ -1,0 +1,1 @@
+Try Raw Next.js Project. Thanks API from [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect).
