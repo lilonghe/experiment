@@ -23,7 +23,7 @@ const Pagination: NextPage<IProps> = ({ page, pageCount, onChange, className = '
             </button>
             <button 
                 className="btn ml-2"
-                disabled={page === pageCount}
+                disabled={page >= pageCount}
                 onClick={() => handleChangePage(1)}>
                     Next
             </button>

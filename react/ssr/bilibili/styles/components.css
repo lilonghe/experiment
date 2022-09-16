@@ -9,4 +9,8 @@
     .btn:disabled {
         @apply bg-amber-500/50 cursor-not-allowed
     }
+
+    .input {
+        @apply border-amber-500 border rounded w-full p-2
+    }
 }

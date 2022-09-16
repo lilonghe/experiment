@@ -18,7 +18,7 @@ export async function getServerSideProps(context: NextPageContext) {
   return {
     props: {
       data: data.data.list,
-      total: 500,
+      total: 100,
       pagination: pageOptions
     }
   }
@@ -48,7 +48,8 @@ const Home: NextPage<IProps> = ({ data, total, pagination }) => {
             className='rounded-sm'
             src={item.pic + '@412w_232h_1c.jpg'} 
             width={206} 
-            height={116} />
+            height={116}
+            loading='lazy' />
           <div className='flex flex-col justify-between'>
             <div className='line-clamp-2'>{item.title}</div>
 
