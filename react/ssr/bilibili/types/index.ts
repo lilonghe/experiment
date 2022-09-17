@@ -1,4 +1,4 @@
-export interface PopularItem {
+export interface IPopularItem {
     aid: number;
     tid: number;
     bvid: string;
@@ -26,8 +26,8 @@ export interface PopularItem {
     pub_location: string;
 }
 
-export interface PopularResponse {
+export interface IPopularResponse {
     data: {
-        list: PopularItem[]
+        list: IPopularItem[]
     }
 }

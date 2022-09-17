@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-interface IUser {
+export interface IUser {
     id: string
     username: string
 }

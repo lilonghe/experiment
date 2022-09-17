@@ -1,6 +1,6 @@
 import type { NextPage, NextPageContext } from 'next'
 import { useRouter } from 'next/router';
-import { PopularResponse, PopularItem } from './types';
+import { IPopularResponse, IPopularItem } from 'types';
 import Pagination from '../components/pagination';
 
 export async function getServerSideProps(context: NextPageContext) {
@@ -14,7 +14,7 @@ export async function getServerSideProps(context: NextPageContext) {
   }
 
   const ua = context.req?.headers['user-agent'] || ''
-  const data: PopularResponse  = await fetch(`https://api.bilibili.com/x/web-interface/popular?ps=${pageOptions.ps}&pn=${pageOptions.pn}`, { headers: { 'User-Agent': ua } }).then(data => data.json());
+  const data: IPopularResponse  = await fetch(`https://api.bilibili.com/x/web-interface/popular?ps=${pageOptions.ps}&pn=${pageOptions.pn}`, { headers: { 'User-Agent': ua } }).then(data => data.json());
   return {
     props: {
       data: data.data.list,
@@ -25,7 +25,7 @@ export async function getServerSideProps(context: NextPageContext) {
 }
 
 interface IProps {
-  data: PopularItem[]
+  data: IPopularItem[]
   total: number
   pagination: {
     pn: number

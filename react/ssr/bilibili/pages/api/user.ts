@@ -1,16 +1,11 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
-
-export type User = {
-  isLoggedIn: boolean;
-  login: string;
-  avatarUrl: string;
-};
+import type { IUser } from "lib/useUser";
 
 export default withIronSessionApiRoute(userRoute, sessionOptions);
 
-async function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
+async function userRoute(req: NextApiRequest, res: NextApiResponse<IUser | {}>) {
   if (req.session.user) {
     res.json({
       ...req.session.user,
