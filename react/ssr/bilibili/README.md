@@ -11,3 +11,5 @@ Private route is ISR.
 
 
  Private route use SSR? It seems meaningless.
+
+ ![demo](./demo.png)
