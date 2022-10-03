@@ -43,10 +43,32 @@ const handleSubmit = () => {
     });
 }
 
+/**
+ * 令人费解的 API 设计
+ * @close 始终有回调
+ * :before-close 为什么是属性而不是事件呢
+ *      只会在点击右上角关闭时触发
+ * :model-value 使用了变量受控制，但是点击关闭竟然又不受控，所以要跑到 :before-close 去手动同步状态
+ */
+const handleClose = (done: () => void) => {
+    console.log(':before-close')
+    emit('cancel');
+}
+
+/**
+ * @close 始终有回调
+ */
+const test = () => {
+    console.log('@close')
+}
+
 </script>
 <template>
     <el-dialog 
-        v-model="props.visible" title="Edit" @ok="handleSubmit" @cancel="emit('cancel')">
+        :model-value="props.visible"
+        :before-close="handleClose"
+        @close="test"
+        title="Edit">
         <el-form ref="formRef" class="createForm" :model="formState">
             <el-form-item label="Id">
                 <span>{{projectId}}</span>
