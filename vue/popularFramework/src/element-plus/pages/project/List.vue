@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button, Table, TableColumnType, Dropdown, Menu, MenuItem, Modal } from 'ant-design-vue';
+import { ElButton, ElTable, ElTableColumn, ElDropdown, ElDropdownMenu, ElDropdownItem, ElMessageBox } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { getProjectList, deleteProject, IProject } from '@/db';
@@ -10,11 +10,6 @@ const targetId = ref()
 
 const dataList = ref<IProject[]>([])
 
-const columns: TableColumnType[] = [
-    { key: 'name',  title: 'Project Name', dataIndex: 'name' },
-    { key: 'actions',  title: 'Actions' },
-]
-
 const handleEdit = (record: any) => {
     const target = dataList.value.find(item => item.id === record.id);
     targetId.value = target?.id
@@ -22,13 +17,12 @@ const handleEdit = (record: any) => {
 }
 
 const handleDelete = (record: any) => {
-    Modal.confirm({
-        title: 'Confirm delete ' + record.name + '?',
-        onOk: () => {
+    ElMessageBox.
+        confirm('Confirm delete ' + record.name + '?', 'Delete confirm').
+        then(() => {
             deleteProject(record.id)
             loadData()
-        }
-    })
+        })
 }
 
 const loadData = () => {
@@ -52,23 +46,24 @@ onMounted(() => {
 
 <template>
     <div>
-        <router-link to="/create"><Button>Create</Button></router-link>
+        <router-link to="/create"><ElButton>Create</ElButton></router-link>
         <div>
-            <Table :data-source="dataList" :columns="columns" :pagination="false">
-                <template #bodyCell="{ column, record }">
-                    <template v-if="column.key === 'actions'">
-                        <Dropdown>
+            <el-table :data="dataList" :pagination="false">
+                <el-table-column prop="name" label="Project Name" />
+                <el-table-column label="Actions">
+                    <template #default="{ row }">
+                        <el-dropdown>
                             <a>Hover</a>
-                            <template #overlay>
-                                <Menu>
-                                    <MenuItem @click="handleEdit(record)">Edit</MenuItem>
-                                    <MenuItem @click="handleDelete(record)">Delete</MenuItem>
-                                </Menu>
+                            <template #dropdown>
+                                <el-dropdown-menu>
+                                    <el-dropdown-item @click="handleEdit(row)">Edit</el-dropdown-item>
+                                    <el-dropdown-item @click="handleDelete(row)">Delete</el-dropdown-item>
+                                </el-dropdown-menu>
                             </template>
-                        </Dropdown>
+                        </el-dropdown>
                     </template>
-                </template>
-            </Table>
+                </el-table-column>
+            </el-table>
 
             <EditProject 
                 :visible="editModalVisible" 
