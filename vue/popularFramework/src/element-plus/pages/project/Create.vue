@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { Form, FormItem, Input, Button, message } from 'ant-design-vue';
+import { reactive, ref } from 'vue';
+import { ElForm, ElFormItem, ElButton, ElInput, ElMessage } from 'element-plus';
+import type { FormInstance } from 'element-plus'
 import { useRouter } from 'vue-router';
 import { createProject } from '@/db'
 
@@ -13,57 +14,61 @@ const formState = reactive({
         a2: '',
     }
 })
+const formRef = ref<FormInstance>()
 
-
-const onFinsh = (values: any) => {
-    message.success(values.name + ' Congratulations!')
-    createProject(values)
-    router.push('/')
+const onFinsh = () => {
+    formRef.value?.validate(isValid => {
+        if (isValid) {
+            console.log(formState)
+            ElMessage.success(formState.name + ' Congratulations!')
+            createProject(formState)
+            router.push('/')
+        }
+    })
 }
 </script>
 <template>
-    <Form 
+    <el-form 
         class="createForm"
-        name="create"
         :model="formState"
-        @finish="onFinsh">
-        <FormItem
+        ref="formRef">
+        <el-form-item
             label="Project Name"
-            name="name"
+            prop="name"
             :rules="[
                 {required: true, message: 'Input Project Name'}
             ]">
-            <Input v-model:value="formState.name" />
-        </FormItem>
+            <el-input v-model="formState.name" />
+        </el-form-item>
 
-        <FormItem
+        <el-form-item
             label="Password"
-            name="password"
+            prop="password"
             :rules="[
                 {required: true, message: 'Input password'},
                 {pattern: /^[a-z]{3,20}$/, message: 'Must a-z latter, and length 3 - 20'},
             ]">
-            <Input type="password" v-model:value="formState.password" />
-        </FormItem>
+            <el-input type="password" v-model="formState.password" />
+        </el-form-item>
 
-        <FormItem
+        <el-form-item
             label="Deep"
-            :name="['deep','a1']">
-            <Input v-model:value="formState.deep.a1" />
-        </FormItem>
-        <FormItem
+            :prop="['deep','a1']">
+            <el-input v-model="formState.deep.a1" />
+        </el-form-item>
+        <el-form-item
             label="Deep"
-            :name="['deep', 'a2']">
-            <Input v-model:value="formState.deep.a2" />
-        </FormItem>
+            :prop="['deep', 'a2']">
+            <el-input v-model="formState.deep.a2" />
+        </el-form-item>
 
-        <FormItem>
+        <el-form-item>
             <div class="actions">
-                <Button type="primary" html-type="submit">Submit</Button>
-                <router-link to="./"><Button>Back</Button></router-link>
+                <el-button type="primary" @click="onFinsh">Submit</el-button>
+                <router-link to="./"><el-button>Back</el-button></router-link>
             </div>
-        </FormItem>
-    </Form>
+        </el-form-item>
+    </el-form>
 </template>
 <style scoped>
 .createForm {
