@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import {  ElDialog, ElForm, ElFormItem, ElInput, ElMessage, ElButton, FormInstance } from 'element-plus'
 import { editProject, getProjectById } from '@/db'
+import FormItemCard from './FormItemCard.vue';
 
 const formState = ref({
     name: '',
@@ -84,6 +85,12 @@ const test = () => {
                 {pattern: /^[a-z]{3,20}$/, message: 'Must a-z latter, and length 3 - 20'},
             ]">
                 <el-input type="password" v-model="formState.password" />
+            </el-form-item>
+
+            <el-form-item label="Card" prop="card" :rules="[
+                {required: true, message: 'Select card'},
+            ]">
+                <form-item-card v-model="formState.card" />
             </el-form-item>
         </el-form>
 
