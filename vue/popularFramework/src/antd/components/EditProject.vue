@@ -44,7 +44,7 @@ const handleSubmit = () => {
 
 </script>
 <template>
-    <Modal v-model:visible="props.visible" title="Edit" @ok="handleSubmit" @cancel="emit('cancel')">
+    <Modal :visible="props.visible" title="Edit" @ok="handleSubmit" @cancel="emit('cancel')">
         <Form ref="formRef" class="createForm" name="create" :model="formState" @finish="onFinsh">
             <FormItem label="Id">
                 <span>{{projectId}}</span>
