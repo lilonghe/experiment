@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { Form, FormItem, Input, message, Modal } from 'ant-design-vue';
-import { editProject, getProjectById } from '@/db'
+import { editProject, getProjectById, IProject } from '@/db'
+import FormItemCard from './FormItemCard.vue';
 
-const formState = ref({
+const formState = ref<IProject>({
     name: '',
     password: ''
 })
@@ -60,6 +61,12 @@ const handleSubmit = () => {
                 {pattern: /^[a-z]{3,20}$/, message: 'Must a-z latter, and length 3 - 20'},
             ]">
                 <Input type="password" v-model:value="formState.password" />
+            </FormItem>
+
+            <FormItem label="Card" name="card" :rules="[
+                {required: true, message: 'Select Card'}
+            ]">
+                <form-item-card v-model:value="formState.card" />
             </FormItem>
         </Form>
     </Modal>

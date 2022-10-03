@@ -50,6 +50,7 @@ onMounted(() => {
         <div>
             <el-table :data="dataList" :pagination="false">
                 <el-table-column prop="name" label="Project Name" />
+                <el-table-column prop="card" label="Card" />
                 <el-table-column label="Actions">
                     <template #default="{ row }">
                         <el-dropdown>

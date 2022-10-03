@@ -2,6 +2,7 @@ export interface IProject {
     id?: string;
     name: string;
     password: string;
+    card?: string;
 }
 
 interface IStore {

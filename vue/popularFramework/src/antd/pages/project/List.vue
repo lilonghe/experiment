@@ -12,6 +12,7 @@ const dataList = ref<IProject[]>([])
 
 const columns: TableColumnType[] = [
     { key: 'name',  title: 'Project Name', dataIndex: 'name' },
+    { key: 'card',  title: 'Card', dataIndex: 'card' },
     { key: 'actions',  title: 'Actions' },
 ]
 

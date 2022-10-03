@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import {  ElDialog, ElForm, ElFormItem, ElInput, ElMessage, ElButton, FormInstance } from 'element-plus'
-import { editProject, getProjectById } from '@/db'
+import { editProject, getProjectById, IProject } from '@/db'
 import FormItemCard from './FormItemCard.vue';
 
-const formState = ref({
+const formState = ref<IProject>({
     name: '',
     password: ''
 })
